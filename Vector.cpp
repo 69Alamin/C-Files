@@ -7,9 +7,11 @@ void reverse_Vector(vector<int> &ref)
     int size = ref.size();
     for (int i = 0; i < size / 2; i++)
     {
-        int temp = ref[size - i-1];
-        ref[size - i-1] = ref[i];
-        ref[i] = temp;
+       // int temp = ref[size - i-1];
+        //ref[size - i-1] = ref[i];
+        //ref[i] = temp;
+
+        swap(ref[i],ref[size-i-1]);
     }
 }
 
