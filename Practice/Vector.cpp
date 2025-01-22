@@ -40,6 +40,6 @@ int main()
     {
         cout << value << endl;
     }
-
+    cout << endl;
     return 0;
 }
