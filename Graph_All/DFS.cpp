@@ -1,4 +1,5 @@
 #include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -16,48 +17,98 @@ struct Node
 Node *head[100] = {nullptr};
 
 void addEdges(char source, char destination)
-{  Node* newNode1=new Node(destination);
+{
+    Node *newNode1 = new Node(destination);
 
-   for(int i=0;i<100;i++){
-    if(head[i] != nullptr&&head[i]->vertex==source){
-        Node* tr=head[i];
-        while (tr->next!=nullptr)
+    for (int i = 0; i < 100; i++)
+    {
+        if (head[i] != nullptr && head[i]->vertex == source)
         {
-            tr=tr->next;
+            Node *tr = head[i];
+            while (tr->next != nullptr)
+            {
+                tr = tr->next;
+            }
+            tr->next = newNode1;
+            break;
         }
-        tr->next=newNode1;
-    break;
     }
 
-   }
-
-
-   //for undirected graph
-   Node* newNode2=new Node(source);
-   for(int i=0;i<100;i++){
-    if(head[i] != nullptr&&head[i]->vertex==destination){
-        Node* tr=head[i];
-        while (tr->next!=nullptr)
+    // for undirected graph
+    Node *newNode2 = new Node(source);
+    for (int i = 0; i < 100; i++)
+    {
+        if (head[i] != nullptr && head[i]->vertex == destination)
         {
-            tr=tr->next;
+            Node *tr = head[i];
+            while (tr->next != nullptr)
+            {
+                tr = tr->next;
+            }
+            tr->next = newNode2;
+            break;
         }
-        tr->next=newNode2;
-    break;
     }
-
-   }
-
-   
 }
 
-void Display(int vertices)
+bool isVisited(char vertex, int NumberOfVertex, char Visited[])
+{
+    for (int i = 0; i < NumberOfVertex; i++)
+    {
+        if (Visited[i] != '\0' && Visited[i] == vertex)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void DFS(Node *source, int NumberOfVertex)
+{
+    stack<char> Stack;
+    Stack.push(source->vertex);
+    char Visited[NumberOfVertex];
+    memset(Visited, '\0', sizeof(Visited));
+
+    int Vindex = 0;
+    while (!Stack.empty())
+    {
+        char vertex = Stack.top();
+        Stack.pop();
+        if (!isVisited(vertex, NumberOfVertex, Visited))
+        {
+            Visited[Vindex++] = vertex;
+            for (int i = 0; i < NumberOfVertex; i++)
+            {
+                if (head[i] && head[i]->vertex == vertex)
+                {
+                    Node *tr = head[i]->next;
+                    while (tr != nullptr)
+                    {
+                        Stack.push(tr->vertex);
+                        tr = tr->next;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < Vindex; i++)
+    {
+        cout << Visited[i] << " ";
+    }
+}
+
+void Display(int NumberOfVertex)
 {
     cout << "Adjacency List: " << endl;
-    for (int i = 0; i < vertices; i++)
-    {   cout << head[i]->vertex << " :";
+    for (int i = 0; i < NumberOfVertex; i++)
+    {
+        cout << head[i]->vertex << " :";
 
-        Node *traversal = head[i]->next;  //head[i] already printed so i start form head next
-        
+        Node *traversal = head[i]->next; // head[i] already printed so i start form head next
+
         while (traversal != nullptr)
         {
             cout << traversal->vertex << "->";
@@ -69,12 +120,12 @@ void Display(int vertices)
 
 int main()
 {
-    int vertices, edges;
-    cout << "Enter the number of vertices and edges :";
-    cin >> vertices >> edges;
+    int NumberOfVertex, edges;
+    cout << "Enter the number of NumberOfVertex and edges :";
+    cin >> NumberOfVertex >> edges;
     cout << endl
-         << "Enter the vertices Name :";
-    for (int i = 0; i < vertices; i++)
+         << "Enter the Vertices Name :";
+    for (int i = 0; i < NumberOfVertex; i++)
     {
         char v_Name;
         cin >> v_Name;
@@ -89,7 +140,8 @@ int main()
         cin >> source >> destination;
         addEdges(source, destination);
     }
-    Display(vertices);
+    Display(NumberOfVertex);
+    DFS(head[0], NumberOfVertex);
 
     return 0;
 }
