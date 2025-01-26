@@ -12,7 +12,6 @@ void initialize()
     for (int i = 0; i < 100; i++)
         visited[i] = 0;
 }
-
 void dfs(int start)
 {
     visited[start] = 1;
