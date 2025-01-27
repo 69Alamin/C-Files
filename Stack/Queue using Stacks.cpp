@@ -66,7 +66,9 @@ void enqueu(int data){
     while (!stack2.isEmpty())
     {
         stack1.push(stack2.Peek());
-        stack2.pop();
+        stack2.pop();               //I Stack here almost 20 minitues 
+                                    //instead of wrinting stack2.pop()  i wrote stack1.pop()
+                                     // Thats insaneeeeeeeeeeeeeeeeeeeeeeeeeeee
     }
     
 
